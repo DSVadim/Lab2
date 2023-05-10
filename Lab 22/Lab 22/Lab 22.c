@@ -7,7 +7,7 @@ typedef struct Node {
     struct Node* prev;
 } Node;
 
-Node* duplicate_first_and_last(Node* head) {
+Node* duplicate_first_and_last(Node* head, Node** P1, Node** P2) {
     if (!head || !head->next) {
         return head;
     }
@@ -30,6 +30,9 @@ Node* duplicate_first_and_last(Node* head) {
     new_last_node->next = NULL;
     new_last_node->prev = last_node;
     last_node->next = new_last_node;
+
+    *P1 = new_first_node;
+    *P2 = new_last_node;
 
     return head;
 }
@@ -74,10 +77,16 @@ int main() {
     printf("Original : ");
     print_list_forward(node1);
 
-    Node* new_head = duplicate_first_and_last(node1);
+    Node* P1 = NULL;
+    Node* P2 = NULL;
+
+    Node* new_head = duplicate_first_and_last(node1, &P1, &P2);
 
     printf("Modified : ");
     print_list_forward(new_head);
+
+    printf("P1 points to %d\n", P1->data);
+    printf("P2 points to %d\n", P2->data);
 
     return 0;
 }
